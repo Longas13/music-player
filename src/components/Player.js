@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faAngleLeft, faAngleRight, faPause } from "@fortawesome/free-solid-svg-icons";
 import Song from "./Song";
+import { playAudio } from "../util";
 
 const Player = ({
     currentSong,
@@ -29,8 +30,8 @@ const Player = ({
             }
         })
         setSongs(newSongs);
-    },[currentSong])
-    
+    }, [currentSong])
+
     const playSongHandler = () => {
         if (isPlaying) {
             audioRef.current.pause();
@@ -63,10 +64,12 @@ const Player = ({
         if (direction === 'skip-back') {
             if ((currentIndex - 1) % songs.length === -1) {
                 setCurrentSong(songs[songs.length - 1]);
+                playAudio(isPlaying, audioRef);
                 return;
             }
             setCurrentSong(songs[(currentIndex - 1) % songs.length]);
         }
+        playAudio(isPlaying, audioRef);
     }
 
     return (
@@ -79,7 +82,7 @@ const Player = ({
                     value={songInfo.currentTime} type="range"
                     onChange={dragHandler}
                 />
-                <p>{getTime(songInfo.duration)}</p>
+                <p>{songInfo.duration ? getTime(songInfo.duration) : "0:00"}</p>
             </div>
             <div className="play-control">
                 <FontAwesomeIcon
