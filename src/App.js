@@ -26,13 +26,13 @@ function App () {
     const duration = e.target.duration;
     // calculate percentage
     const roundedCurrent = Math.round(current);
-    const roundedDuration = Math.round(current);
+    const roundedDuration = Math.round(duration);
     const animation = Math.round((roundedCurrent / roundedDuration) * 100);
     setSongInfo({
       ...songInfo,
       currentTime: current,
       duration,
-      animationPercentage: animation
+      animationPercentage: animation,
     });
   };
 
@@ -42,7 +42,7 @@ function App () {
     if (isPlaying) audioRef.current.play();
   };
   return (
-    <div className={`App ${libraryStatus ? "library-active" : ""}`}>
+    <div className={ `App ${libraryStatus ? "library-active" : ""}` }>
       <Nav libraryStatus={ libraryStatus } setLibraryStatus={ setLibraryStatus } />
       <Song currentSong={ currentSong } />
       <Player
